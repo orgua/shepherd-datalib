@@ -5,13 +5,13 @@ from datetime import datetime
 from datetime import timedelta
 from enum import Enum
 from pathlib import Path
+from typing import Annotated
 from typing import Optional
 from typing import Union
 
 from pydantic import Field
 from pydantic import model_validator
 from pydantic import validate_call
-from typing_extensions import Annotated
 from typing_extensions import Self
 
 from ..base.content import IdInt

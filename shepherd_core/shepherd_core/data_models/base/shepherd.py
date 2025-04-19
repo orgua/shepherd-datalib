@@ -2,11 +2,11 @@
 
 import hashlib
 import pathlib
+from collections.abc import Generator
 from datetime import timedelta
 from ipaddress import IPv4Address
 from pathlib import Path
 from typing import Any
-from typing import Generator
 from typing import Optional
 from typing import Union
 from uuid import UUID
@@ -15,27 +15,26 @@ import yaml
 from pydantic import BaseModel
 from pydantic import ConfigDict
 from typing_extensions import Self
-from yaml import Dumper
+from yaml import Node
 from yaml import SafeDumper
-from yaml import ScalarNode
 
 from .timezone import local_now
 from .wrapper import Wrapper
 
 
 def path2str(
-    dumper: Dumper, data: Union[pathlib.Path, pathlib.WindowsPath, pathlib.PosixPath]
-) -> ScalarNode:
+    dumper: SafeDumper, data: Union[pathlib.Path, pathlib.WindowsPath, pathlib.PosixPath]
+) -> Node:
     """Add a yaml-representation for a specific datatype."""
     return dumper.represent_scalar("tag:yaml.org,2002:str", str(data.as_posix()))
 
 
-def time2int(dumper: Dumper, data: timedelta) -> ScalarNode:
+def time2int(dumper: SafeDumper, data: timedelta) -> Node:
     """Add a yaml-representation for a specific datatype."""
     return dumper.represent_scalar("tag:yaml.org,2002:int", str(int(data.total_seconds())))
 
 
-def generic2str(dumper: Dumper, data: Any) -> ScalarNode:
+def generic2str(dumper: SafeDumper, data: Any) -> Node:
     """Add a yaml-representation for a specific datatype."""
     return dumper.represent_scalar("tag:yaml.org,2002:str", str(data))
 

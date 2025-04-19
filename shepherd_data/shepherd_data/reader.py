@@ -1,13 +1,11 @@
 """Reader-Baseclass for opening shepherds hdf5-files."""
 
 import math
+from collections.abc import Mapping
+from collections.abc import Sequence
 from datetime import datetime
 from pathlib import Path
-from typing import Dict
-from typing import List
-from typing import Mapping
 from typing import Optional
-from typing import Sequence
 from typing import Union
 
 import h5py
@@ -59,13 +57,13 @@ class Reader(CoreReader):
         if csv_path.exists():
             self._logger.info("File already exists, will skip '%s'", csv_path.name)
             return 0
-        datasets: List[str] = [
+        datasets: list[str] = [
             str(key) for key in h5_group if isinstance(h5_group[key], h5py.Dataset)
         ]
         datasets.remove("time")
         datasets = ["time", *datasets]
         separator = separator.strip().ljust(2)
-        header_elements: List[str] = [
+        header_elements: list[str] = [
             str(h5_group[key].attrs["description"]).replace(", ", separator) for key in datasets
         ]
         header: str = separator.join(header_elements)
@@ -74,10 +72,10 @@ class Reader(CoreReader):
             csv_file.write(header + "\n")
             ts_gain = h5_group["time"].attrs.get("gain", 1e-9)
             # for converting data to si - if raw=false
-            gains: Dict[str, float] = {
+            gains: dict[str, float] = {
                 key: h5_group[key].attrs.get("gain", 1.0) for key in datasets[1:]
             }
-            offsets: Dict[str, float] = {
+            offsets: dict[str, float] = {
                 key: h5_group[key].attrs.get("offset", 1.0) for key in datasets[1:]
             }
             for idx, time_ns in enumerate(h5_group["time"][:]):
@@ -460,7 +458,7 @@ class Reader(CoreReader):
         end_s: Optional[float] = None,
         *,
         relative_timestamp: bool = True,
-    ) -> Optional[Dict]:
+    ) -> Optional[dict]:
         """Provide down-sampled iv-data that can be fed into plot_to_file().
 
         :param start_s: time in seconds, relative to start of recording

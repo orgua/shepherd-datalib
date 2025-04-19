@@ -1,11 +1,11 @@
 """Read and modify symbols in ELF-files."""
 
 from pathlib import Path
+from typing import Annotated
 from typing import Optional
 
 from pydantic import Field
 from pydantic import validate_call
-from typing_extensions import Annotated
 
 from ..commons import uid_len_default
 from ..commons import uid_str_default
@@ -109,16 +109,14 @@ def modify_symbol_value(
     # ⤷ cutting needed -> msp produces 4b instead of 2
     value_old = int.from_bytes(bytes=value_raw, byteorder=elf.endian, signed=False)
     value_raw = value.to_bytes(length=uid_len_default, byteorder=elf.endian, signed=False)
+
     try:
         elf.write(address=addr, data=value_raw)
     except AttributeError:
         logger.warning("ELF-Modifier failed @%s for symbol '%s'", f"0x{addr:X}", symbol)
         return None
-    if overwrite:
-        file_new = file_elf
-    else:
-        file_new = file_elf.with_name(file_elf.stem + "_" + str(value) + file_elf.suffix)
-        # could be simplified, but py3.8-- doesn't know .with_stem()
+
+    file_new = file_elf if overwrite else file_elf.with_stem(file_elf.stem + "_" + str(value))
     elf.save(path=file_new)
     elf.close()
     logger.debug(

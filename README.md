@@ -101,13 +101,14 @@ coverage report
 ```shell
 pipenv shell
 
-bump2version --allow-dirty --new-version 2025.04.1 patch
+bump2version --allow-dirty --new-version 2025.04.2 patch
 # ⤷ format: year.month.patch_release
 
 pre-commit run --all-files
 
 # additional QA-Tests (currently with open issues)
-pyright
+cd shepherd_core
+mypy .
 
 # inside sub-modules unittests
 cd shepherd_core

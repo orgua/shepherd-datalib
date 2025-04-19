@@ -33,8 +33,8 @@ def set_log_verbose_level(log_: Union[logging.Logger, logging.Handler], verbose:
     if verbose < 3:
         # reduce log-overhead when not debugging, also more user-friendly exceptions
         logging._srcfile = None  # noqa: SLF001
-        logging.logThreads = 0
-        logging.logProcesses = 0
+        logging.logThreads = False
+        logging.logProcesses = False
 
     if verbose > 2:
         chromalog.basicConfig(format="%(name)s %(levelname)s: %(message)s")

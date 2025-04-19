@@ -16,8 +16,6 @@ Compromises:
 
 """
 
-from typing import Tuple
-
 from ..data_models.content.virtual_harvester import HarvesterPRUConfig
 from ..logger import logger
 
@@ -94,7 +92,7 @@ class VirtualHarvesterModel:
         self.voltage_nxt: int = 0
         self.current_nxt: int = 0
 
-    def ivcurve_sample(self, _voltage_uV: int, _current_nA: int) -> Tuple[int, int]:
+    def ivcurve_sample(self, _voltage_uV: int, _current_nA: int) -> tuple[int, int]:
         if self._cfg.window_size <= 1:
             return _voltage_uV, _current_nA
         if self._cfg.algorithm >= self.HRV_MPPT_OPT:
@@ -108,7 +106,7 @@ class VirtualHarvesterModel:
         # next line is only implied in C
         return _voltage_uV, _current_nA
 
-    def ivcurve_2_cv(self, _voltage_uV: int, _current_nA: int) -> Tuple[int, int]:
+    def ivcurve_2_cv(self, _voltage_uV: int, _current_nA: int) -> tuple[int, int]:
         compare_now = _voltage_uV < self.voltage_set_uV
         step_size_now = abs(_voltage_uV - self.voltage_last)
         distance_now = abs(_voltage_uV - self.voltage_set_uV)
@@ -146,7 +144,7 @@ class VirtualHarvesterModel:
         self.compare_last = compare_now
         return self.voltage_hold, self.current_hold
 
-    def ivcurve_2_mppt_voc(self, _voltage_uV: int, _current_nA: int) -> Tuple[int, int]:
+    def ivcurve_2_mppt_voc(self, _voltage_uV: int, _current_nA: int) -> tuple[int, int]:
         self.interval_step = self.interval_step + 1
         if self.interval_step >= self._cfg.interval_n:
             self.interval_step = 0
@@ -176,7 +174,7 @@ class VirtualHarvesterModel:
 
         return _voltage_uV, _current_nA
 
-    def ivcurve_2_mppt_po(self, _voltage_uV: int, _current_nA: int) -> Tuple[int, int]:
+    def ivcurve_2_mppt_po(self, _voltage_uV: int, _current_nA: int) -> tuple[int, int]:
         self.interval_step = self.interval_step + 1
         if self.interval_step >= self._cfg.interval_n:
             self.interval_step = 0
@@ -220,7 +218,7 @@ class VirtualHarvesterModel:
 
         return _voltage_uV, _current_nA
 
-    def ivcurve_2_mppt_opt(self, _voltage_uV: int, _current_nA: int) -> Tuple[int, int]:
+    def ivcurve_2_mppt_opt(self, _voltage_uV: int, _current_nA: int) -> tuple[int, int]:
         self.age_now += 1
         self.age_nxt += 1
 

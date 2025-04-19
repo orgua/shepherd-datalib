@@ -4,7 +4,6 @@ These models import externally from all other model-modules!
 """
 
 from pathlib import Path
-from typing import List
 from typing import Optional
 from typing import Union
 
@@ -74,7 +73,7 @@ def prepare_task(config: Union[ShpModel, Path, str], observer: Optional[str] = N
     return shp_wrap
 
 
-def extract_tasks(shp_wrap: Wrapper, *, no_task_sets: bool = True) -> List[ShpModel]:
+def extract_tasks(shp_wrap: Wrapper, *, no_task_sets: bool = True) -> list[ShpModel]:
     """Make the individual task-sets usable for each observer."""
     if shp_wrap.datatype == ObserverTasks.__name__:
         obt = ObserverTasks(**shp_wrap.parameters)

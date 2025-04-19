@@ -2,6 +2,7 @@
 
 import secrets
 from hashlib import pbkdf2_hmac
+from typing import Annotated
 from typing import Optional
 from typing import Union
 from uuid import uuid4
@@ -14,7 +15,6 @@ from pydantic import SecretStr
 from pydantic import StringConstraints
 from pydantic import model_validator
 from pydantic import validate_call
-from typing_extensions import Annotated
 
 from ..data_models.base.content import NameStr
 from ..data_models.base.content import SafeStr

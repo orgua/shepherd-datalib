@@ -2,12 +2,12 @@
 
 import copy
 from pathlib import Path
+from typing import Annotated
 from typing import Optional
 
 from pydantic import Field
 from pydantic import model_validator
 from pydantic import validate_call
-from typing_extensions import Annotated
 from typing_extensions import Self
 
 from ..base.content import IdInt

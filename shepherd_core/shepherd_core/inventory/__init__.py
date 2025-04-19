@@ -9,10 +9,9 @@ This will collect:
 from datetime import datetime
 from datetime import timedelta
 from pathlib import Path
-from typing import List
+from typing import Annotated
 
 from pydantic import Field
-from typing_extensions import Annotated
 from typing_extensions import Self
 
 from ..data_models import ShpModel
@@ -55,7 +54,7 @@ class Inventory(PythonInventory, SystemInventory, TargetInventory):
 class InventoryList(ShpModel):
     """Collection of inventories for several devices."""
 
-    elements: Annotated[List[Inventory], Field(min_length=1)]
+    elements: Annotated[list[Inventory], Field(min_length=1)]
 
     def to_csv(self, path: Path) -> None:
         """Generate a CSV.
@@ -82,8 +81,8 @@ class InventoryList(ShpModel):
             if (_e.created.timestamp() - ts_earl) > 10:
                 warnings["time_delta"] = f"[{self.hostname}] time-sync has failed"
 
-        # turn  Dict[hostname][type] = val
-        # to    Dict[type][val] = List[hostnames]
+        # turn  dict[hostname][type] = val
+        # to    dict[type][val] = list[hostnames]
         _inp = {
             _e.hostname: _e.model_dump(exclude_unset=True, exclude_defaults=True)
             for _e in self.elements

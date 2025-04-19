@@ -3,11 +3,11 @@
 from datetime import datetime
 from datetime import timedelta
 from pathlib import Path
+from typing import Annotated
 from typing import Optional
 
 from pydantic import Field
 from pydantic import model_validator
-from typing_extensions import Annotated
 from typing_extensions import Self
 
 from ..base.shepherd import ShpModel

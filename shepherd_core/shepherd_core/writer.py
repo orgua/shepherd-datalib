@@ -3,14 +3,13 @@
 import logging
 import math
 import pathlib
+from collections.abc import Mapping
 from datetime import timedelta
 from itertools import product
 from pathlib import Path
 from types import TracebackType
 from typing import Any
-from typing import Mapping
 from typing import Optional
-from typing import Type
 from typing import Union
 
 import h5py
@@ -18,9 +17,8 @@ import numpy as np
 import yaml
 from pydantic import validate_call
 from typing_extensions import Self
-from yaml import Dumper
+from yaml import Node
 from yaml import SafeDumper
-from yaml import ScalarNode
 
 from .commons import samplerate_sps_default
 from .data_models.base.calibration import CalibrationEmulator as CalEmu
@@ -34,13 +32,13 @@ from .reader import Reader
 
 # copy of core/models/base/shepherd - needed also here
 def path2str(
-    dumper: Dumper, data: Union[pathlib.Path, pathlib.WindowsPath, pathlib.PosixPath]
-) -> ScalarNode:
+    dumper: SafeDumper, data: Union[pathlib.Path, pathlib.WindowsPath, pathlib.PosixPath]
+) -> Node:
     """Add a yaml-representation for a specific datatype."""
     return dumper.represent_scalar("tag:yaml.org,2002:str", str(data.as_posix()))
 
 
-def time2int(dumper: Dumper, data: timedelta) -> ScalarNode:
+def time2int(dumper: SafeDumper, data: timedelta) -> Node:
     """Add a yaml-representation for a specific datatype."""
     return dumper.represent_scalar("tag:yaml.org,2002:int", str(int(data.total_seconds())))
 
@@ -212,7 +210,7 @@ class Writer(Reader):
 
     def __exit__(
         self,
-        typ: Optional[Type[BaseException]] = None,
+        typ: Optional[type[BaseException]] = None,
         exc: Optional[BaseException] = None,
         tb: Optional[TracebackType] = None,
         extra_arg: int = 0,

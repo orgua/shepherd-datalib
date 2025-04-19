@@ -4,6 +4,7 @@ TODO: should be more generalized - currently only supports msp & nRF
 """
 
 from pathlib import Path
+from typing import Annotated
 from typing import Optional
 from typing import TypedDict
 from typing import Union
@@ -11,7 +12,6 @@ from typing import Union
 from pydantic import StringConstraints
 from pydantic import model_validator
 from pydantic import validate_call
-from typing_extensions import Annotated
 from typing_extensions import Self
 from typing_extensions import Unpack
 

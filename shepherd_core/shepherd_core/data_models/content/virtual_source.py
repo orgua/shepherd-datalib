@@ -1,10 +1,9 @@
 """Generalized virtual source data models."""
 
-from typing import List
+from typing import Annotated
 
 from pydantic import Field
 from pydantic import model_validator
-from typing_extensions import Annotated
 from typing_extensions import Self
 
 from ...commons import samplerate_sps_default
@@ -19,8 +18,8 @@ from .virtual_harvester import VirtualHarvesterConfig
 # Custom Types
 LUT_SIZE: int = 12
 NormedNum = Annotated[float, Field(ge=0.0, le=1.0)]
-LUT1D = Annotated[List[NormedNum], Field(min_length=LUT_SIZE, max_length=LUT_SIZE)]
-LUT2D = Annotated[List[LUT1D], Field(min_length=LUT_SIZE, max_length=LUT_SIZE)]
+LUT1D = Annotated[list[NormedNum], Field(min_length=LUT_SIZE, max_length=LUT_SIZE)]
+LUT2D = Annotated[list[LUT1D], Field(min_length=LUT_SIZE, max_length=LUT_SIZE)]
 
 
 class VirtualSourceConfig(ContentModel, title="Config for the virtual Source"):
@@ -244,13 +243,13 @@ class VirtualSourceConfig(ContentModel, title="Config for the virtual Source"):
 u32 = Annotated[int, Field(ge=0, lt=2**32)]
 u8 = Annotated[int, Field(ge=0, lt=2**8)]
 lut_i = Annotated[
-    List[Annotated[List[u8], Field(min_length=LUT_SIZE, max_length=LUT_SIZE)]],
+    list[Annotated[list[u8], Field(min_length=LUT_SIZE, max_length=LUT_SIZE)]],
     Field(
         min_length=LUT_SIZE,
         max_length=LUT_SIZE,
     ),
 ]
-lut_o = Annotated[List[u32], Field(min_length=LUT_SIZE, max_length=LUT_SIZE)]
+lut_o = Annotated[list[u32], Field(min_length=LUT_SIZE, max_length=LUT_SIZE)]
 
 
 class ConverterPRUConfig(ShpModel):

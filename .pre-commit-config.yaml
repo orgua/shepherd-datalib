@@ -92,6 +92,3 @@ repos:
       - id: validate-pyproject
 
 # TODO: github.com/PyCQA/pydocstyle
-
-# default_language_version:
-#    python: python3.8

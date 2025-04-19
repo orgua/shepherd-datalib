@@ -1,6 +1,6 @@
 import subprocess
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable  # py38, later use: from collections.abc import Iterable
 
 import numpy as np
 import pytest

@@ -4,6 +4,15 @@ include = [
     './shepherd_core/',
     './shepherd_data/',
 ]
-pythonVersion = "3.8"
+pythonVersion = "3.9"
 pythonPlatform = "All"
 reportMissingParameterType = true
+
+[tool.mypy]
+python_version = 3.9
+ignore_missing_imports = true
+disable_error_code = ["call-arg", ]
+exclude = [
+    "build/",
+    ".egg-info/",
+]

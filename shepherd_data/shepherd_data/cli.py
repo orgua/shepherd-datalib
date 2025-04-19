@@ -5,7 +5,6 @@ import sys
 from contextlib import suppress
 from datetime import datetime
 from pathlib import Path
-from typing import List
 from typing import Optional
 
 import click
@@ -21,7 +20,7 @@ from .reader import Reader
 logger = logging.getLogger("SHPData.cli")
 
 
-def path_to_flist(data_path: Path, *, recurse: bool = False) -> List[Path]:
+def path_to_flist(data_path: Path, *, recurse: bool = False) -> list[Path]:
     """Every path gets transformed to a list of paths.
 
     Transformations:

@@ -42,11 +42,7 @@ tgt = ResistiveTarget(R_Ohm=1_000, controlled=True)
 save_files = True
 
 for src_name in src_list:
-    file_output = (
-        file_input.with_name(file_input.stem + "_emu_" + src_name + file_input.suffix)
-        if save_files
-        else None
-    )
+    file_output = file_input.with_stem(file_input.stem + "_emu_" + src_name) if save_files else None
 
     e_out_Ws = simulate_source(
         config=VirtualSourceConfig(

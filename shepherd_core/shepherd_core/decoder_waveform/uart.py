@@ -208,10 +208,10 @@ class Uart:
         if self.events_symbols is not None:
             return self.events_symbols
 
-        pos_df = None
-        symbol = 0
-        t_start = None
-        content = []
+        pos_df: Optional[int] = None
+        symbol: int = 0
+        t_start: Optional[float] = None
+        content: list = []
 
         for time, value, steps in self.events_sig:
             if steps > self.frame_length:

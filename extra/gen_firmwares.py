@@ -8,7 +8,6 @@
 import shutil
 from io import BytesIO
 from pathlib import Path
-from typing import Dict
 from urllib.request import urlopen
 from zipfile import ZipFile
 
@@ -67,7 +66,7 @@ if __name__ == "__main__":
                 logger.error("FW not found, will skip: %s", path_elf.as_posix())
 
             # debug-part below
-            sizeof: Dict[str, int] = {}
+            sizeof: dict[str, int] = {}
             sizeof["elf"] = path_elf.stat().st_size
             files_hex = [each for each in path_sub.iterdir() if each.endswith(".hex")]
             if files_hex:

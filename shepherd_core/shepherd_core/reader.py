@@ -12,11 +12,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
-from typing import Dict
-from typing import Generator
-from typing import List
 from typing import Optional
-from typing import Type
 from typing import Union
 
 import h5py
@@ -33,6 +29,7 @@ from .data_models.content.energy_environment import EnergyDType
 from .decoder_waveform import Uart
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
     from types import TracebackType
 
 
@@ -114,6 +111,8 @@ class Reader:
                     self.file_path.name,
                 )
 
+        if not isinstance(self.file_path, Path):
+            raise TypeError("Provide a valid Path-Object to Base-Reader.file_path!")
         if not isinstance(self.h5file, h5py.File):
             raise TypeError("Type of opened file is not h5py.File, for %s", self.file_path.name)
 
@@ -155,7 +154,7 @@ class Reader:
 
     def __exit__(
         self,
-        typ: Optional[Type[BaseException]] = None,
+        typ: Optional[type[BaseException]] = None,
         exc: Optional[BaseException] = None,
         tb: Optional[TracebackType] = None,
         extra_arg: int = 0,
@@ -254,7 +253,7 @@ class Reader:
             return self.h5file.attrs["mode"]
         return ""
 
-    def get_config(self) -> Dict:
+    def get_config(self) -> dict:
         if "config" in self.h5file["data"].attrs:
             return yaml.safe_load(self.h5file["data"].attrs["config"])
         return {}
@@ -478,7 +477,7 @@ class Reader:
 
     def _dset_statistics(
         self, dset: h5py.Dataset, cal: Optional[CalibrationPair] = None
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Create basic stats for a provided dataset.
 
         :param dset: dataset to evaluate
@@ -511,7 +510,7 @@ class Reader:
         if len(stats_list) < 1:
             return {}
         stats_nd = np.stack(stats_list)
-        stats: Dict[str, float] = {
+        stats: dict[str, float] = {
             # TODO: wrong calculation for ndim-datasets with n>1
             "mean": float(stats_nd[:, 0].mean()),
             "min": float(stats_nd[:, 1].min()),
@@ -521,7 +520,7 @@ class Reader:
         }
         return stats
 
-    def _data_timediffs(self) -> List[float]:
+    def _data_timediffs(self) -> list[float]:
         """Calculate list of unique time-deltas [s] between buffers.
 
         Optimized version that only looks at the start of each buffer.
@@ -583,7 +582,7 @@ class Reader:
         node: Union[h5py.Dataset, h5py.Group, None] = None,
         *,
         minimal: bool = False,
-    ) -> Dict[str, dict]:
+    ) -> dict[str, dict]:
         """Recursive FN to capture the structure of the file.
 
         :param node: starting node, leave free to go through whole file
@@ -594,7 +593,7 @@ class Reader:
             self._refresh_file_stats()
             return self.get_metadata(self.h5file, minimal=minimal)
 
-        metadata: Dict[str, dict] = {}
+        metadata: dict[str, dict] = {}
         if isinstance(node, h5py.Dataset) and not minimal:
             metadata["_dataset_info"] = {
                 "datatype": str(node.dtype),
@@ -616,7 +615,7 @@ class Reader:
                 with contextlib.suppress(yaml.YAMLError):
                     attr_value = yaml.safe_load(attr_value)
             elif "int" in str(type(attr_value)):
-                # TODO: why not isinstance? can it be List[int] other complex type?
+                # TODO: why not isinstance? can it be list[int] other complex type?
                 attr_value = int(attr_value)
             else:
                 attr_value = float(attr_value)
@@ -675,7 +674,7 @@ class Reader:
         return data != data_1
 
     def gpio_to_waveforms(self, name: Optional[str] = None) -> dict:
-        waveforms: Dict[str, np.ndarray] = {}
+        waveforms: dict[str, np.ndarray] = {}
         if "gpio" not in self.h5file:
             return waveforms
 

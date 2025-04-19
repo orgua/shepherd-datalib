@@ -4,9 +4,7 @@ import logging
 import re
 from collections.abc import Mapping
 from pathlib import Path
-from typing import List
 from typing import Optional
-from typing import Tuple
 
 logging.basicConfig(level=logging.INFO)
 
@@ -19,7 +17,7 @@ draw_nodes: bool = True
 # -------------------------------------------------------
 
 # node locations in pixel
-NODES: Mapping[int, Tuple[int, int]] = {
+NODES: Mapping[int, tuple[int, int]] = {
     1: (104, 110),
     2: (207, 70),
     3: (326, 31),
@@ -50,7 +48,7 @@ def indent(s: str, pre: str = "\t", *, empty: bool = False) -> str:
 class SVGNodes:
     def __init__(self, color: str = "#FFFFFF") -> None:
         self.color: str = color
-        self._nodes: List[str] = []
+        self._nodes: list[str] = []
 
     @staticmethod
     def _gen_node(node: int, fill: str) -> str:

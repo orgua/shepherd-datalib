@@ -1,11 +1,10 @@
 """Collection of tasks for all observers included in experiment."""
 
-from typing import List
+from typing import Annotated
 from typing import Optional
 
 from pydantic import Field
 from pydantic import validate_call
-from typing_extensions import Annotated
 from typing_extensions import Self
 
 from ..base.content import IdInt
@@ -20,7 +19,7 @@ class TestbedTasks(ShpModel):
     """Collection of tasks for all observers included in experiment."""
 
     name: NameStr
-    observer_tasks: Annotated[List[ObserverTasks], Field(min_length=1, max_length=128)]
+    observer_tasks: Annotated[list[ObserverTasks], Field(min_length=1, max_length=128)]
 
     # POST PROCESS
     email_results: bool = False

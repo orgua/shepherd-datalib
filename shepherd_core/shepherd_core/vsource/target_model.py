@@ -79,9 +79,9 @@ class DiodeTarget(TargetABC):
 
     def step(self, voltage_uV: int, *, pwr_good: bool) -> float:
         if pwr_good or not self.ctrl:
-            V_CC = voltage_uV * 1e-6
-            V_D = V_CC / 2
-            I_R = I_D = 0
+            V_CC: float = voltage_uV * 1e-6
+            V_D: float = V_CC / 2
+            I_R = I_D = 0.0
             # there is no direct formular, but this iteration converges fast
             for _ in range(10):
                 # low voltages tend to produce log(x<0)=err

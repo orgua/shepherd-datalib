@@ -61,11 +61,7 @@ with Reader(file_ivcurve, verbose=False) as file:
 
 # Simulation
 for hrv_name in hrv_list:
-    file_output = (
-        file_ivcurve.with_name(file_ivcurve.stem + "_" + hrv_name + file_ivcurve.suffix)
-        if save_files
-        else None
-    )
+    file_output = file_ivcurve.with_stem(file_ivcurve.stem + "_" + hrv_name) if save_files else None
     E_out_Ws = simulate_harvester(
         config=VirtualHarvesterConfig(name=hrv_name),
         path_input=file_ivcurve,

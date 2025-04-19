@@ -2,13 +2,12 @@
 
 from datetime import timedelta
 from pathlib import Path
-from typing import List
+from typing import Annotated
 from typing import Optional
 
 from pydantic import Field
 from pydantic import HttpUrl
 from pydantic import model_validator
-from typing_extensions import Annotated
 from typing_extensions import Self
 
 from ... import logger
@@ -30,7 +29,7 @@ class Testbed(ShpModel):
 
     url: Optional[HttpUrl] = None
 
-    observers: Annotated[List[Observer], Field(min_length=1, max_length=128)]
+    observers: Annotated[list[Observer], Field(min_length=1, max_length=128)]
 
     shared_storage: bool = True
     data_on_server: Path

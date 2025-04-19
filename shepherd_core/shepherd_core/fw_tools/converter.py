@@ -85,10 +85,10 @@ def extract_firmware(data: Union[str, Path], data_type: FirmwareDType, file_path
     - base64-string will be transformed to file
     - if data is a path the file will be copied to the destination.
     """
-    if data_type == FirmwareDType.base64_elf:
+    if data_type == FirmwareDType.base64_elf and isinstance(data, str):
         file = file_path.with_suffix(".elf")
         base64_to_file(data, file)
-    elif data_type == FirmwareDType.base64_hex:
+    elif data_type == FirmwareDType.base64_hex and isinstance(data, str):
         file = file_path.with_suffix(".hex")
         base64_to_file(data, file)
     elif isinstance(data, (Path, str)):

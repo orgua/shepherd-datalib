@@ -1,12 +1,11 @@
 """Generalized energy harvester data models."""
 
 from enum import Enum
+from typing import Annotated
 from typing import Optional
-from typing import Tuple
 
 from pydantic import Field
 from pydantic import model_validator
-from typing_extensions import Annotated
 from typing_extensions import Self
 
 from ...commons import samplerate_sps_default
@@ -129,7 +128,7 @@ class VirtualHarvesterConfig(ContentModel, title="Config for the Harvester"):
             raise ValueError(msg)
         return num
 
-    def calc_timings_ms(self, *, for_emu: bool) -> Tuple[float, float]:
+    def calc_timings_ms(self, *, for_emu: bool) -> tuple[float, float]:
         """factor-in model-internal timing-constraints."""
         window_length = self.samples_n * (1 + self.wait_cycles)
         time_min_ms = (1 + self.wait_cycles) * 1_000 / samplerate_sps_default

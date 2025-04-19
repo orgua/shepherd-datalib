@@ -3,7 +3,6 @@
 from datetime import datetime
 from datetime import timedelta
 from pathlib import Path
-from typing import List
 from typing import Optional
 
 from pydantic import validate_call
@@ -78,7 +77,7 @@ class ObserverTasks(ShpModel):
             emulation=EmulationTask.from_xp(xp, tb, tgt_id, root_path),
         )
 
-    def get_tasks(self) -> List[ShpModel]:
+    def get_tasks(self) -> list[ShpModel]:
         task_names = ["fw1_mod", "fw2_mod", "fw1_prog", "fw2_prog", "emulation"]
         tasks = []
 

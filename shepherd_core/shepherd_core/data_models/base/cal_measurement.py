@@ -1,13 +1,12 @@
 """Models for the process of calibration a device by measurements."""
 
-from typing import List
+from typing import Annotated
 from typing import Optional
 
 import numpy as np
 from pydantic import Field
 from pydantic import PositiveFloat
 from pydantic import validate_call
-from typing_extensions import Annotated
 
 from .calibration import CalibrationCape
 from .calibration import CalibrationEmulator
@@ -24,7 +23,7 @@ class CalMeasurementPair(ShpModel):
     reference_si: float = 0
 
 
-CalMeasPairs = Annotated[List[CalMeasurementPair], Field(min_length=2)]
+CalMeasPairs = Annotated[list[CalMeasurementPair], Field(min_length=2)]
 
 
 @validate_call
@@ -37,16 +36,16 @@ def meas_to_cal(data: CalMeasPairs, component: str) -> CalibrationPair:
         y[i] = pair.reference_si
 
     model = np.polyfit(x, y, 1)
-    offset = model[1]
-    gain = model[0]
+    offset: float = float(model[1])
+    gain: float = float(model[0])
 
     # r-squared, Pearson correlation coefficient
-    p = np.poly1d(model)
-    yhat = p(x)
-    ybar = np.sum(y) / len(y)
-    ssreg = np.sum((yhat - ybar) ** 2)
-    sstot = np.sum((y - ybar) ** 2)
-    rval = ssreg / sstot
+    _p = np.poly1d(model)
+    yhat = _p(x)
+    ybar: float = np.sum(y) / len(y)
+    ssreg: float = np.sum((yhat - ybar) ** 2)
+    sstot: float = np.sum((y - ybar) ** 2)
+    rval: float = ssreg / sstot
 
     if rval < 0.999:
         msg = (

@@ -1,11 +1,11 @@
 """Models for the calibration-data to convert between raw & SI-Values."""
 
 import struct
+from collections.abc import Generator
+from collections.abc import Mapping
+from collections.abc import Sequence
 from typing import Callable
-from typing import Generator
-from typing import Mapping
 from typing import Optional
-from typing import Sequence
 from typing import TypeVar
 from typing import Union
 

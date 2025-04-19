@@ -2,14 +2,13 @@
 
 from datetime import timedelta
 from enum import Enum
-from typing import List
+from typing import Annotated
 from typing import Optional
 
 import numpy as np
 from pydantic import Field
 from pydantic import PositiveFloat
 from pydantic import model_validator
-from typing_extensions import Annotated
 from typing_extensions import Self
 
 from ..base.shepherd import ShpModel
@@ -61,7 +60,7 @@ class GpioTracing(ShpModel, title="Config for GPIO-Tracing"):
     # initial recording
     mask: Annotated[int, Field(ge=0, lt=2**10)] = 0b11_1111_1111  # all
     # ⤷ TODO: custom mask not implemented in PRU, ATM
-    gpios: Optional[Annotated[List[GPIO], Field(min_length=1, max_length=10)]] = None  # = all
+    gpios: Optional[Annotated[list[GPIO], Field(min_length=1, max_length=10)]] = None  # = all
     # ⤷ TODO: list of GPIO to build mask, one of both should be internal / computed field
 
     # time
@@ -125,7 +124,7 @@ class GpioActuation(ShpModel, title="Config for GPIO-Actuation"):
     # TODO: not implemented ATM - decide if pru control sys-gpio or
     # TODO: not implemented ATM - reverses pru-gpio (preferred if possible)
 
-    events: Annotated[List[GpioEvent], Field(min_length=1, max_length=1024)]
+    events: Annotated[list[GpioEvent], Field(min_length=1, max_length=1024)]
 
     def get_gpios(self) -> set:
         return {_ev.gpio for _ev in self.events}

@@ -5,7 +5,6 @@ import subprocess
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import List
 from typing import Optional
 
 from typing_extensions import Self
@@ -49,8 +48,8 @@ class SystemInventory(ShpModel):
     #   ip IPvAnyAddress
     #   mac MACStr
 
-    fs_root: List[str] = None
-    beagle: List[str] = None
+    fs_root: list[str] = None
+    beagle: list[str] = None
 
     model_config = ConfigDict(str_min_length=0)
 

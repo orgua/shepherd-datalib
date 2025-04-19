@@ -1,11 +1,11 @@
 """meta-data representation of a testbed-component (physical object)."""
 
 from enum import Enum
+from typing import Annotated
 from typing import Optional
 
 from pydantic import Field
 from pydantic import model_validator
-from typing_extensions import Annotated
 
 from ...testbed_client import tb_client
 from ..base.content import IdInt

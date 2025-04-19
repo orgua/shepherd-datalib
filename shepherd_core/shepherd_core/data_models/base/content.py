@@ -2,6 +2,7 @@
 
 import hashlib
 from datetime import datetime
+from typing import Annotated
 from typing import Optional
 from typing import Union
 from uuid import uuid4
@@ -10,7 +11,6 @@ from pydantic import UUID4
 from pydantic import Field
 from pydantic import StringConstraints
 from pydantic import model_validator
-from typing_extensions import Annotated
 from typing_extensions import Self
 from typing_extensions import deprecated
 

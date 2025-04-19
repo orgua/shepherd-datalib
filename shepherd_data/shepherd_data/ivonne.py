@@ -17,7 +17,6 @@ import pickle
 from pathlib import Path
 from types import TracebackType
 from typing import Optional
-from typing import Type
 
 import numpy as np
 import pandas as pd
@@ -88,7 +87,7 @@ class Reader:
 
     def __exit__(
         self,
-        typ: Optional[Type[BaseException]] = None,
+        typ: Optional[type[BaseException]] = None,
         exc: Optional[BaseException] = None,
         tb: Optional[TracebackType] = None,
         extra_arg: int = 0,
